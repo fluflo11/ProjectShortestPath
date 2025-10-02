@@ -36,9 +36,9 @@ public :
     //Getters
     int getWidth() const { return width; }
     int getHeight() const { return height; }
-    std::tuple<int,int> getStart() const { return start; }
-    std::tuple<int,int> getEnd() const { return end; }
-    
+    const std::tuple<int,int> getStart() { return start; }
+    const std::tuple<int,int> getEnd() { return end; }
+
     int getCell(int x, int y) const;
     void setCell(int x, int y, int value);
     int moveCost(int x, int y, Move move);

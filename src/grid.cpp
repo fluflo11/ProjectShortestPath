@@ -41,6 +41,7 @@ void Grid::setCell(int x, int y, int value){
 
 /**
  * Compte the cost of a move on the grid.
+ * @return -1 if you cant do this move, else the cost of the move
  */
 int Grid::moveCost(int x, int y, Move move){
     int nextX = x;
