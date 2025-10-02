@@ -43,47 +43,47 @@ void Grid::setCell(int x, int y, int value){
  * Compte the cost of a move on the grid.
  * @return -1 if you cant do this move, else the cost of the move
  */
-int Grid::moveCost(int x, int y, Move move){
-    int nextX = x;
-    int nextY = y;
+int Grid::moveCost(int x, int y, Move move) const {
+    int next_x = x;
+    int next_y = y;
     int cost = -1;
 
     switch(move){
         case Move::LEFT: 
-            nextX--; 
+            next_x--; 
             cost = 10;
             break;
         case Move::RIGHT: 
-            nextX++; 
+            next_x++; 
             cost = 10;
             break;
         case Move::UP: 
-            nextY--;
+            next_y--;
             cost = 10; 
             break;
         case Move::DOWN: 
-            nextY++; 
+            next_y++; 
             cost = 10;
             break;
         case Move::LEFT_UP:    
-            nextX--; nextY--;
+            next_x--; next_y--;
             cost = 14;
             break;
         case Move::LEFT_DOWN:  
-            nextX--; nextY++;
+            next_x--; next_y++;
             cost = 14; 
             break;
         case Move::RIGHT_UP:   
-            nextX++; nextY--;
+            next_x++; next_y--;
             cost = 14; 
             break;
         case Move::RIGHT_DOWN: 
-            nextX++; nextY++;
+            next_x++; next_y++;
             cost = 14; 
             break;
     }
 
-    if(nextX <0 || nextX >= width || nextY <0 || nextY >= height){
+    if(next_x <0 || next_x >= width || next_y <0 || next_y >= height){
         return -1;
     }
 
