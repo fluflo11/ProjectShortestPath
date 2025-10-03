@@ -45,7 +45,6 @@ std::vector<Coord> Dijkstra::findPath(const Grid& grid) const {
 
         auto[current_x,current_y] = current.coord;
 
-        
         if(current_x == end_x && current_y == end_y) { 
             break; //End Case
         }
@@ -63,7 +62,7 @@ std::vector<Coord> Dijkstra::findPath(const Grid& grid) const {
 
             auto[next_x, next_y] = Dijkstra::move(move, current_x, current_y);
             
-            if(next_x < 0 || next_x >= width || next_y < 0 || next_y > height) {
+            if(!(grid.isNodeAccessible(next_x,next_y))){
                 continue;
             }
 
@@ -80,7 +79,7 @@ std::vector<Coord> Dijkstra::findPath(const Grid& grid) const {
 
     std::vector<Coord> path;
     int current_x = end_x;
-    int current_y = end_y;
+    int current_y = end_y;  
     
     if(previous[current_y][current_x] == Coord{-1,-1} 
     && !(current_x==start_x && current_y==start_y)) {

@@ -25,6 +25,11 @@ private:
 
 public :
     /**
+    * Indicates if a Node of the grid is accessible or not. All nodes are accessible by default.
+    */
+    static constexpr int ACCESSIBLE = 0;
+    static constexpr int BLOCKED = 1;
+    /**
      * Initialises an empty map
      */
     Grid(int width, int height);
@@ -33,7 +38,7 @@ public :
      */
     Grid(int width, int height, int start_x, int start_y, int end_x, int end_y);
 
-    //Getters
+    //Getters & Setters
     int getWidth() const { return width; }
     int getHeight() const { return height; }
     std::tuple<int,int> getStart() const { return start; }
@@ -42,6 +47,11 @@ public :
     int getCell(int x, int y) const;
     void setCell(int x, int y, int value);
     int moveCost(int x, int y, Move move) const;
+
+    /**
+     * Indicate if a node is accessible or blocked
+     */
+    bool isNodeAccessible(int x, int y) const ;
     //Debug
     void print() const;
 };

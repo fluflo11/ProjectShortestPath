@@ -83,12 +83,24 @@ int Grid::moveCost(int x, int y, Move move) const {
             break;
     }
 
-    if(next_x <0 || next_x >= width || next_y <0 || next_y >= height){
+    if(!(isNodeAccessible(next_x,next_y))){
         return -1;
     }
-
+    
     return cost;
 }
+
+
+bool Grid::isNodeAccessible(int x, int y) const {
+    if(x < 0 || x >= width || y < 0 || y >= height){
+        return false;
+    }
+    if(cells[y][x] == BLOCKED) {
+        return false;
+    }
+    return true;
+}
+
 
 void Grid::print() const {
     for (int y = 0; y < height; y++){
