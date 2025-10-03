@@ -2,7 +2,7 @@
 
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I./src
-SRC = src/main.cpp src/grid.cpp
+SRC = src/main.cpp src/grid.cpp src/agent.cpp src/dijkstra.cpp
 OBJ = $(SRC:.cpp=.o)
 TARGET = grid_test
 
