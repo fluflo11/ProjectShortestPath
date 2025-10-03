@@ -10,10 +10,7 @@
 #include <limits>
 #include <algorithm>
 //TODO : move allMoves in utils.hpp
-std::vector<Move> allMoves = {
-    Move::LEFT, Move::RIGHT, Move::UP, Move::DOWN,
-    Move::LEFT_UP, Move::LEFT_DOWN, Move::RIGHT_UP, Move::RIGHT_DOWN
-};
+
 
 /**
  * Dijkstra's algorithm implemented on a Grid. The implementation is based on the
@@ -86,14 +83,14 @@ std::vector<Coord> Dijkstra::findPath(const Grid& grid) const {
         return path; //No existing path in the grid
     }
 
-    while(!(current_x == -1 && current_y==-1)){
-        path.push_back({current_x,current_y});
-        auto[previous_y, previous_x] = previous[current_y][current_x];
-        current_x = previous_x;
-        current_y = previous_x;
+    while (!(current_x == -1 && current_y == -1)) {
+    path.push_back({current_x, current_y});
+    auto [px, py] = previous[current_y][current_x];
+    current_x = px;
+    current_y = py;
     }
+    std::reverse(path.begin(), path.end());
 
-    std::reverse(path.begin(), path.end()); 
     return path;
 }
 

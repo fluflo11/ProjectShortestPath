@@ -36,7 +36,7 @@ void Grid::setCell(int x, int y, int value){
         throw std::out_of_range("Cell coordinates are out of range");
     }
     
-    cells[x][y] = value;
+    cells[y][x] = value;
 }
 
 /**
@@ -105,7 +105,7 @@ bool Grid::isNodeAccessible(int x, int y) const {
 void Grid::print() const {
     for (int y = 0; y < height; y++){
         for(int x = 0; x < width; x++){
-            std::cout << cells[x][y] << " ";
+            std::cout << cells[y][x] << " ";
         }
         std::cout << "\n";
     }
