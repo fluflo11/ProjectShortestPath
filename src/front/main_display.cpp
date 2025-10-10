@@ -1,3 +1,6 @@
+#define UNICODE
+#define _UNICODE
+
 #include "main_display.hpp"
 #include "utils_display.hpp"
 
@@ -46,17 +49,15 @@ HRESULT App::Initialize(){
     hr = CreateDeviceIndependentResources();
 
     if (SUCCEEDED(hr))
-    {
+    {   
+        HINSTANCE hInstance = GetModuleHandle(nullptr);
         // Register the window class.
-        WNDCLASSEX wcex = { sizeof(WNDCLASSEX) };
-        wcex.style         = CS_HREDRAW | CS_VREDRAW;
-        wcex.lpfnWndProc   = App::WndProc;
-        wcex.cbClsExtra    = 0;
-        wcex.cbWndExtra    = sizeof(LONG_PTR);
-        wcex.hInstance     = HINST_THISCOMPONENT;
-        wcex.hbrBackground = NULL;
-        wcex.lpszMenuName  = NULL;
-        wcex.hCursor       = LoadCursor(NULL, IDI_APPLICATION);
+        WNDCLASSEX wcex = {};
+        wcex.cbSize = sizeof(WNDCLASSEX);
+        wcex.style = CS_HREDRAW | CS_VREDRAW;
+        wcex.lpfnWndProc = App::WndProc;
+        wcex.hInstance = hInstance;
+        wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wcex.lpszClassName = L"D2DApp";
 
         RegisterClassEx(&wcex);
@@ -90,8 +91,8 @@ HRESULT App::Initialize(){
             SetWindowPos(
                 m_hwnd,
                 NULL,
-                NULL,
-                NULL,
+                0,
+                0,
                 static_cast<int>(ceil(640.f * dpi / 96.f)),
                 static_cast<int>(ceil(480.f * dpi / 96.f)),
                 SWP_NOMOVE);
@@ -318,4 +319,34 @@ void App::OnResize(UINT width, UINT height)
         // the next time EndDraw is called.
         m_pRenderTarget->Resize(D2D1::SizeU(width, height));
     }
+}
+
+int WINAPI WinMain(
+    HINSTANCE /* hInstance */,
+    HINSTANCE /* hPrevInstance */,
+    LPSTR /* lpCmdLine */,
+    int /* nCmdShow */
+    )
+{
+    // Use HeapSetInformation to specify that the process should
+    // terminate if the heap manager detects an error in any heap used
+    // by the process.
+    // The return value is ignored, because we want to continue running in the
+    // unlikely event that HeapSetInformation fails.
+    HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+
+    if (SUCCEEDED(CoInitialize(NULL)))
+    {
+        {
+            App app;
+
+            if (SUCCEEDED(app.Initialize()))
+            {
+                app.RunMessageLoop();
+            }
+        }
+        CoUninitialize();
+    }
+
+    return 0;
 }

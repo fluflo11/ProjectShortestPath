@@ -1,15 +1,21 @@
-#Automatically generated file
-
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I./src
-SRC = src/main.cpp src/grid.cpp src/agent.cpp src/dijkstra.cpp
+CXXFLAGS = -std=c++17 -Wall -Wextra -I./src -I./src/front
+#lole32 is here to avoid the  infamous "undefined reference to `__imp_CoInitialize'"
+LDFLAGS = -ld2d1 -ldwrite -luuid -lgdi32 -lole32
+
+SRC = src/main.cpp \
+      src/grid.cpp \
+      src/agent.cpp \
+      src/dijkstra.cpp \
+      src/front/main_display.cpp 
+
 OBJ = $(SRC:.cpp=.o)
 TARGET = grid_test
 
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

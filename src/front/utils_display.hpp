@@ -3,66 +3,29 @@
 
 #include "main_display.hpp"
 
-/**
+/** 
  * Code from Microsoft
  */
 
-#include <windows.h> 
-#include <stdlib.h>
-#include <malloc.h>
-#include <memory.h>
-#include <wchar.h>
-#include <math.h>
+#include <windows.h>
 #include <d2d1.h>
-#include <d2d1helper.h>
 #include <dwrite.h>
-#include <wincodec.h>
 
 
 template<class Interface>
-inline  void SafeRelease(Interface **ppInterfaceToRelease){
-    if(*ppInterfaceToRelease != NULL){
-        (
-            (*ppInterfaceToRelease)->Release();
-            (*ppInterfaceToRelease) = NULL;
-        )
-    }
-}
-
-int WINAPI WinMain(
-    HINSTANCE /* hInstance */,
-    HINSTANCE /* hPrevInstance */,
-    LPSTR /* lpCmdLine */,
-    int /* nCmdShow */
-    )
+inline void SafeRelease(Interface **ppInterfaceToRelease)
 {
-    // Use HeapSetInformation to specify that the process should
-    // terminate if the heap manager detects an error in any heap used
-    // by the process.
-    // The return value is ignored, because we want to continue running in the
-    // unlikely event that HeapSetInformation fails.
-    HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
-
-    if (SUCCEEDED(CoInitialize(NULL)))
+    if (*ppInterfaceToRelease != NULL)
     {
-        {
-            App app;
-
-            if (SUCCEEDED(app.Initialize()))
-            {
-                app.RunMessageLoop();
-            }
-        }
-        CoUninitialize();
+        (*ppInterfaceToRelease)->Release();
+        (*ppInterfaceToRelease) = NULL;
     }
-
-    return 0;
 }
 
 #ifndef Assert
 #if defined( DEBUG ) || defined( _DEBUG )
-#define Assert(b) do {if (!(b)) {OutputDebugStringA("Assert: " #b "\n");} } while(0)
-#else 
+#define Assert(b) do {if (!(b)) {OutputDebugStringA("Assert: " #b "\n");}} while(0)
+#else
 #define Assert(b)
 #endif //DEBUG || _DEBUG
 #endif
