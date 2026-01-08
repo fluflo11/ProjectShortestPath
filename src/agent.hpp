@@ -7,6 +7,10 @@
 #include <stdexcept>
 #include "grid.hpp"
 
+enum class AgentID{
+    DIJKSTRA
+};
+
 /**
  * Abstract class to represent a solving Agent. 
  */

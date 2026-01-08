@@ -10,7 +10,7 @@ enum class Move {
     LEFT,RIGHT,UP,DOWN,
     LEFT_UP,LEFT_DOWN,RIGHT_UP,RIGHT_DOWN
 };
-
+//TODO : add a destructor
 /**
  * A grid representing a map. Each cell is a node, and from 
  * each node you can move to an adjacent node with a Move (e.g. Move enum).
@@ -37,7 +37,6 @@ public :
      * Initialises an empty map with a start and a end
      */
     Grid(int width, int height, int start_x, int start_y, int end_x, int end_y);
-
     //Getters & Setters
     int getWidth() const { return width; }
     int getHeight() const { return height; }

@@ -13,7 +13,7 @@ struct Node {
     }
 };
 
-std::vector<Move> allMoves = {
+inline std::vector<Move> allMoves = {
     Move::LEFT, Move::RIGHT, Move::UP, Move::DOWN,
     Move::LEFT_UP, Move::LEFT_DOWN, Move::RIGHT_UP, Move::RIGHT_DOWN
 };

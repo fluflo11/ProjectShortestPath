@@ -1,57 +1,79 @@
 #ifndef MAIN_DISPLAY_HPP
 #define MAIN_DISPLAY_HPP
 
-//Windows Header Files :
-#include <windows.h>
-#include "utils_display.hpp"
-// C Runtime Header Files : 
-#include <stdlib.h>
-#include <malloc.h>
-#include <memory.h>
-#include <wchar.h>
-#include <math.h>
+#ifndef UNICODE
+#define UNICODE
+#endif
+#ifndef _UNICODE
+#define _UNICODE
+#endif
 
+#include <windows.h>
 #include <d2d1.h>
 #include <d2d1helper.h>
-#include <dwrite.h>
-#include <wincodec.h>
+#include <dwrite.h> 
+#include <vector>
+#include <string>
+#include <tuple>
 
-class App{
+#include "grid.hpp"
+/**
+ * Some of the code here is from microsoft
+ */
+enum ButtonAction {
+    ACTION_NONE = 0,
+    ACTION_NEXT_STEP
+};
+
+struct Button {
+    D2D1_RECT_F rect;
+    std::wstring text;
+    ButtonAction action;
+};
+
+class App {
 public:
     App();
     ~App();
-    // Register the window class and call methods for instantiating drawing resources
+
     HRESULT Initialize();
-    // Process and dispatch messages
+    void SetData(const Grid* grid, const std::vector<std::tuple<int, int>>& path);
     void RunMessageLoop();
+
 private:
+    HRESULT CreateDeviceIndependentResources();
+    HRESULT CreateDeviceResources();
+    void DiscardDeviceResources();
+    HRESULT OnRender();
+    void OnResize(UINT width, UINT height);
+    void OnLButtonDown(int pixelX, int pixelY);
+
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
     HWND m_hwnd;
+
     ID2D1Factory* m_pDirect2dFactory;
+    IDWriteFactory* m_pDWriteFactory;
+    IDWriteTextFormat* m_pTextFormat;
+
     ID2D1HwndRenderTarget* m_pRenderTarget;
+
     ID2D1SolidColorBrush* m_pLightSlateGrayBrush;
     ID2D1SolidColorBrush* m_pCornflowerBlueBrush;
-    // Initialize device-independent resources.
-    HRESULT CreateDeviceIndependentResources();
-    // Initialize device-dependent resources.
-    HRESULT CreateDeviceResources();
-    // Release device-dependent resource.
-    void DiscardDeviceResources();
-    // Draw content.
-    HRESULT OnRender();
+    ID2D1SolidColorBrush* m_pBlackBrush;
+    
 
-    // Resize the render target.
-    void OnResize(
-        UINT width,
-        UINT height
-    );
-    // The windows procedure.
-    static LRESULT CALLBACK WndProc(
-        HWND hWnd,
-        UINT message,
-        WPARAM wParam,
-        LPARAM lParam
-    );
+    ID2D1SolidColorBrush* m_pSidebarBrush;
+    ID2D1SolidColorBrush* m_pButtonBrush;
+    ID2D1SolidColorBrush* m_pTextBrush;
+
+
+    const Grid* m_pGrid;
+    std::vector<std::tuple<int, int>> m_path;
+
+    std::vector<Button> m_buttons; 
+    int m_stepIndex;
+    float m_sidebarWidth;
 };
-
 
 #endif
