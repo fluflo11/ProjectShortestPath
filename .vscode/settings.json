@@ -52,5 +52,6 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "map": "cpp"
-    }
+    },
+    "C_Cpp.default.compilerPath": "/home/flore/emsdk/upstream/bin/clang++"
 }

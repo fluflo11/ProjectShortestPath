@@ -1,27 +1,32 @@
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -I./src -I./src/front
-#lole32 is here to avoid the  infamous "undefined reference to `__imp_CoInitialize'"
-LDFLAGS = -ld2d1 -ldwrite -luuid -lgdi32 -lole32
+# Compilateur
+CXX = emcc
 
-SRC = src/main.cpp \
-      src/grid.cpp \
-      src/agent.cpp \
-      src/dijkstra.cpp \
-      src/front/main_display.cpp \
-      src/astar.cpp
+# Options de compilation
+# -I./src : Pour trouver les headers (.hpp)
+# -O3 : Optimisation pour la vitesse (conseillé pour le web)
+CXXFLAGS = -std=c++17 -I./src -O3
 
-OBJ = $(SRC:.cpp=.o)
-TARGET = grid_test
+# Options spécifiques à Emscripten
+# -lembind : Active le binding C++ <-> JS
+# -s ALLOW_MEMORY_GROWTH=1 : Évite les plantages si la grille est grande
+# -s WASM=1 : Force la génération de WebAssembly
+EMFLAGS = -lembind -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
 
-all: $(TARGET)
+# Liste des fichiers sources (.cpp)
+# J'ai inclus api.cpp qui est ton "pont" vers le JS
+SRCS = src/grid.cpp src/agent.cpp src/dijkstra.cpp src/astar.cpp src/api.cpp
 
-$(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+# Fichier de sortie (placé dans front/ pour être avec index.html)
+OUTPUT = front/pathfinding.js
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+# --- RÈGLES ---
 
+# Règle "build" : compile tout
+build:
+	$(CXX) $(CXXFLAGS) $(EMFLAGS) $(SRCS) -o $(OUTPUT)
+	@echo "Compilation terminee ! Fichiers generes dans front/"
+
+# Règle "clean" : supprime les fichiers générés
 clean:
-	rm -f $(OBJ) $(TARGET)
-
-.PHONY: all clean
+	rm -f front/pathfinding.js front/pathfinding.wasm
+	@echo "Nettoyage termine."

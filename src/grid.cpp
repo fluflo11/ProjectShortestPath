@@ -1,8 +1,10 @@
-#include "grid.hpp"
+    #include "grid.hpp"
 
 Grid::Grid(int width, int height) : width(width), height(height){
-     cells = std::vector<std::vector<int>>(height,
+    cells = std::vector<std::vector<int>>(height,
                             std::vector<int>(width,0));
+    start = std::make_tuple(0,0);
+    end = std::make_tuple(width-1,height-1);
 }
 
 Grid::Grid(int width, int height, 

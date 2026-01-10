@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux - Emscripten",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/flore/emsdk/upstream/emscripten/system/include/**",
+                "/home/flore/emsdk/upstream/lib/clang/22/include/**" 
+            ],
+            "defines": [],
+            "compilerPath": "/home/flore/emsdk/upstream/bin/clang++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}
